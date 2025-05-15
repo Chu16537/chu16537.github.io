@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GitHub Page POST Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2em;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #status {
+      margin-top: 1em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>POST 請求示範</h1>
+  <button onclick="sendPost()">送出 POST 請求</button>
+  <div id="status"></div>
+
+  <script>
+    function sendPost() {
+      const url = "https://httpbin.org/post"; // 你可以替換成自己的 API endpoint
+      const data = {
+        message: "Hello from GitHub Pages!"
+      };
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log("Success:", result);
+        document.getElementById("status").innerText = "成功送出！伺服器回應已收到。";
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        document.getElementById("status").innerText = "送出失敗。";
+      });
+    }
+  </script>
+</body>
+</html>
