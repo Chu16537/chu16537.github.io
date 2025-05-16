@@ -166,11 +166,68 @@
       display: none;
       font-size: 0.9em;
     }
+
+    .title-container {
+      text-align: center; /* 將圖片水平置中 */
+      margin-bottom: 1.5em; /* 與下方搜尋框保持間距 */
+    }
+
+    .title-container img {
+      max-width: 300px; /* 設定圖片的最大寬度，防止過大 */
+      height: auto; /* 保持圖片的原始比例 */
+      display: block; /* 移除圖片底部的額外空間 */
+      margin: 0 auto; /* 另一種水平置中的方式 */
+    }
+
+    .telegram-link {
+      position: fixed; /* 固定在螢幕上的位置 */
+      top: 50%;
+      right: 2em; /* 距離右邊的距離 */
+      transform: translateY(-50%); /* 垂直置中 */
+      background-color: #f0f0f0; /* 淺灰色背景 */
+      color: #222;
+      padding: 0.8em 1em;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 100; /* 確保在其他內容之上 */
+    }
+
+    .telegram-link a {
+      display: flex; /* 讓圖示和文字水平對齊 */
+      align-items: center;
+      color: inherit; /* 繼承父元素的顏色 */
+      text-decoration: none; /* 移除底線 */
+    }
+
+    .telegram-link i {
+      font-size: 1.5em;
+      margin-right: 0.5em;
+      color: #0088cc; /* Telegram 的品牌顏色 */
+    }
+
+    .telegram-link span {
+      font-size: 1em;
+    }
+
+    /* 響應式設計調整 */
+    @media (max-width: 900px) {
+      .telegram-link {
+        right: 1em;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .telegram-link {
+        display: none; /* 在更小的螢幕上隱藏 */
+      }
+    }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-  <h1>blahJob</h1>
+  <div class="title-container">
+    <img src="/image/title.png" alt="blahJob" />
+  </div>
   <div class="search-container">
     <input type="text" id="inputBox" placeholder="輸入公司名稱" oninput="onInputChange()" />
     <button onclick="onConfirm()"><i class="fas fa-search"></i></button>
@@ -178,6 +235,12 @@
   <div class="suggestions" id="suggestions"></div>
   <div id="result"></div>
   <div id="loading">載入中...</div>
+  <div class="telegram-link">
+    <a href="https://t.me/blahjob" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-telegram"></i>
+      <span></span>
+    </a>
+  </div>
   <script>
     // JavaScript 程式碼保持不變 (與之前的版本相同)
     let companyMap = {};
