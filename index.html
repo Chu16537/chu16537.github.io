@@ -4,66 +4,168 @@
   <meta charset="UTF-8" />
   <title>blahJob</title>
   <style>
-    body { font-family: sans-serif; padding: 2em; max-width: 800px; margin: auto; text-align: center; } /* 將 body 內容置中 */
-    h1 { margin-bottom: 1em; }
-    .search-container { display: flex; justify-content: center; align-items: center; margin-bottom: 1em; } /* 容器置中並水平對齊 */
-    input { width: 300px; padding: 0.5em; font-size: 1em; }
-    button {
-      padding: 0.5em; /* 調整按鈕內邊距以適應圖示 */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 更現代簡潔的字體 */
+      padding: 2em;
+      max-width: 800px;
+      margin: 2em auto; /* 上下也增加一些外邊距 */
+      color: #333; /* 深灰色文字 */
+      background-color: #d4d4d4; /* 淺灰色背景 */
+    }
+
+    h1 {
+      margin-bottom: 1.5em;
+      font-size: 2em;
+      font-weight: 300; /* 更細的字重 */
+      color: #222;
+      text-align: center;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2em; /* 增加下方間距 */
+    }
+
+    input {
+      width: 300px;
+      padding: 0.8em; /* 增加內邊距 */
       font-size: 1em;
-      margin-left: 0.5em;
+      border: 1px solid #ddd; /* 更細的邊框 */
+      border-radius: 5px;
+      outline: none; /* 移除預設 focus 樣式，稍後自訂 */
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* 輕微的內陰影 */
+    }
+
+    input:focus {
+      border-color: #aaa; /* focus 時更明顯的邊框 */
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 5px rgba(170, 170, 170, 0.3); /* 更明顯的 focus 陰影 */
+    }
+
+    button {
+      padding: 0.8em; /* 與輸入框相同的內邊距 */
+      font-size: 1em;
+      margin-left: 0.8em; /* 增加左邊間距 */
       border: none;
-      background: none; /* 移除按鈕預設樣式 */
+      background-color: #eee; /* 淺灰色按鈕 */
+      color: #333;
+      border-radius: 5px;
       cursor: pointer;
+      transition: background-color 0.3s ease; /* 添加過渡效果 */
     }
-    .suggestions { margin-top: 0.5em; color: #666; text-align: left; } /* 建議靠左對齊 */
-    .suggestion-list { list-style: none; padding: 0; margin: 0; text-align: left; } /* 建議列表靠左對齊 */
-    .suggestion-item { display: block; padding: 0.2em 0.5em; cursor: pointer; }
-    .suggestion-item:hover { background-color: #ddd; color: #333; }
-    .suggestion-item.active { background-color: #ccc; color: #333; }
+
+    button:hover {
+      background-color: #ddd;
+    }
+
+    button i {
+      font-size: 1.2em; /* 放大圖示 */
+    }
+
+    .suggestions {
+      margin-top: 1em;
+      color: #777; /* 更柔和的文字顏色 */
+      text-align: left;
+    }
+
+    .suggestion-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+      border: 1px solid #eee; /* 建議列表邊框 */
+      border-radius: 5px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* 輕微陰影 */
+    }
+
+    .suggestion-item {
+      display: block;
+      padding: 0.6em 1em;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .suggestion-item:hover {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .suggestion-item.active {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+
+    #result {
+      margin-top: 2em;
+    }
+
     .article {
-      margin-top: 1.5em;
-      padding: 1em;
-      background: #f4f4f4;
-      border-radius: 8px;
-      border: 2px solid #ccc;
+      margin-bottom: 2em; /* 增加文章間距 */
+      padding: 1.5em; /* 增加內邊距 */
+      background-color: #fff;
+      border-radius: 10px;
+      border-top: 0px solid #eee; /* 上邊框保持 1px 細線 */
+      border-right: 0px solid #eee; /* 右邊框保持 1px 細線 */
+      border-bottom: 0px solid #eee; /* 下邊框保持 1px 細線 */
+      border-left: 10px solid #eee; /* 左邊框設定為 10px 粗細 */
       position: relative;
-      text-align: left; /* 文章內容靠左對齊 */
+      text-align: left;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* 輕微陰影 */
     }
+
     .article-action {
       position: absolute;
-      top: 0.5em;
-      left: 0.5em;
-      font-size: 0.8em;
-      color: #666;
-      background-color: #eee;
-      padding: 0.2em 0.5em;
+      top: 0.8em;
+      left: 0.8em;
+      font-size: 0.9em;
+      color: #555;
+      background-color: #f0f0f0;
+      padding: 0.3em 0.6em;
       border-radius: 4px;
     }
+
     .article-info {
       text-align: center;
-      margin-bottom: 1em;
+      margin-bottom: 1.2em;
+      font-size: 1.1em;
+      color: #444;
     }
+
     .article-rating {
       position: absolute;
-      top: 0.5em;
-      right: 0.5em;
-      font-size: 0.8em;
-      color: #333;
-      background-color: #eee;
-      padding: 0.2em 0.5em;
+      top: 0.8em;
+      right: 0.8em;
+      font-size: 0.9em;
+      color: #444;
+      background-color: #f0f0f0;
+      padding: 0.3em 0.6em;
       border-radius: 4px;
     }
+
     .article-feedback {
-      margin-top: 1em;
-      padding: 0.8em;
-      border: 1px solid black;
+      margin-top: 1.5em;
+      padding: 1em;
+      border: 1px solid #ccc; /* 稍淺的黑色邊框 */
       border-radius: 4px;
-      background-color: #fff;
+      background-color: #f9f9f9; /* 更柔和的背景 */
+      color: #555;
+      font-size: 0.95em;
+      line-height: 1.6; /* 增加行高 */
     }
-    .green-border { border-color: green; }
-    .red-border { border-color: red; }
-    #loading { text-align: center; padding: 1em; color: #999; display: none; }
+
+    .green-border { border-color: #a7d1a9 !important; } /* 更柔和的綠色 */
+    .red-border { border-color: #e38989 !important; } /* 更柔和的紅色 */
+    .blue-border { border-color: #a7b6d1 !important; } /* 更柔和的藍色 */
+
+    #loading {
+      text-align: center;
+      padding: 1.5em;
+      color: #999;
+      display: none;
+      font-size: 0.9em;
+    }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -71,11 +173,13 @@
   <h1>blahJob</h1>
   <div class="search-container">
     <input type="text" id="inputBox" placeholder="輸入公司名稱" oninput="onInputChange()" />
-    <button onclick="onConfirm()"><i class="fas fa-search"></i></button> </div>
+    <button onclick="onConfirm()"><i class="fas fa-search"></i></button>
+  </div>
   <div class="suggestions" id="suggestions"></div>
   <div id="result"></div>
   <div id="loading">載入中...</div>
   <script>
+    // JavaScript 程式碼保持不變 (與之前的版本相同)
     let companyMap = {};
     let currentActiveSuggestion = null;
     let currentCompanyId = null;
@@ -167,7 +271,7 @@
               articleDiv.classList.add('red-border');
             }
           } else if (item["本次動作"] === "面試") {
-            articleDiv.classList.add('green-border');
+            articleDiv.classList.add('blue-border');
           }
 
           const actionSpan = document.createElement('span');
@@ -209,7 +313,7 @@
           document.getElementById('loading').textContent = '已載入所有資料';
         }
       } catch (err) {
-        resultBox.innerHTML += '<p style="color: red;">⚠️ 載入資料失敗</p>';
+        resultBox.innerHTML += '<p style="color: red;">⚠️ 載入資料失敗，檔案可能不存在</p>';
         console.error(err);
         document.getElementById('loading').style.display = 'none';
       } finally {
@@ -218,26 +322,26 @@
     }
 
     function onConfirm() {
-  const input = document.getElementById('inputBox').value.trim();
-  const id = companyMap[input];
-  const resultBox = document.getElementById('result');
-  const suggestionBox = document.getElementById('suggestions'); // 取得建議框元素
-  resultBox.innerHTML = '';
-  allArticleData = [];
-  loadedArticleCount = 0;
-  document.getElementById('loading').textContent = '載入中...';
-  suggestionBox.innerHTML = ''; // 清除建議選單內容
+      const input = document.getElementById('inputBox').value.trim();
+      const id = companyMap[input];
+      const resultBox = document.getElementById('result');
+      const suggestionBox = document.getElementById('suggestions');
+      resultBox.innerHTML = '';
+      allArticleData = [];
+      loadedArticleCount = 0;
+      document.getElementById('loading').textContent = '載入中...';
+      suggestionBox.innerHTML = '';
 
-  if (!id) {
-    resultBox.innerHTML = '<p style="color: red;">❌ 找不到對應資料</p>';
-    document.getElementById('loading').style.display = 'none';
-    currentCompanyId = null;
-    return;
-  }
+      if (!id) {
+        resultBox.innerHTML = '<p style="color: red;">❌ 找不到對應資料</p>';
+        document.getElementById('loading').style.display = 'none';
+        currentCompanyId = null;
+        return;
+      }
 
-  currentCompanyId = id;
-  loadAndDisplayArticles(currentCompanyId, 0, articlesPerPage);
-}
+      currentCompanyId = id;
+      loadAndDisplayArticles(currentCompanyId, 0, articlesPerPage);
+    }
 
     window.addEventListener('scroll', () => {
       if (!currentCompanyId || isLoading) return;
