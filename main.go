@@ -48,10 +48,10 @@ func main() {
 			entry[headers[i]] = row[i]
 		}
 
-		companyName := entry["公司名稱"]
+		companyName := entry["company_name"]
 		id, ok := companyMap[companyName]
 		if !ok {
-			fmt.Printf("公司名稱找不到對應: %s\n", companyName)
+			fmt.Printf("company_name 找不到對應: %s\n", companyName)
 			continue
 		}
 
