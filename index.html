@@ -1,684 +1,789 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-    <meta charset="UTF-8" />
-    <title>職話職說 | blahJob</title>
-    <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* 更現代簡潔的字體 */
-        padding: 2em;
-        max-width: 800px;
-        margin: 2em auto; /* 上下也增加一些外邊距 */
-        color: #333; /* 深灰色文字 */
-        background-color: #d4d4d4; /* 淺灰色背景 */
-      }
 
-      h1 {
-        margin-bottom: 1.5em;
-        font-size: 2em;
-        font-weight: 300; /* 更細的字重 */
-        color: #222;
-        text-align: center;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <title>職話職說 | blahJob</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      /* 更現代簡潔的字體 */
+      padding: 2em;
+      max-width: 800px;
+      margin: 2em auto;
+      /* 上下也增加一些外邊距 */
+      color: #333;
+      /* 深灰色文字 */
+      background-color: #d4d4d4;
+      /* 淺灰色背景 */
+    }
 
-      .search-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 2em; /* 增加下方間距 */
-      }
+    h1 {
+      margin-bottom: 1.5em;
+      font-size: 2em;
+      font-weight: 300;
+      /* 更細的字重 */
+      color: #222;
+      text-align: center;
+    }
 
-      input {
-        width: 300px;
-        padding: 0.8em; /* 增加內邊距 */
-        font-size: 1em;
-        border: 1px solid #ddd; /* 更細的邊框 */
-        border-radius: 5px;
-        outline: none; /* 移除預設 focus 樣式，稍後自訂 */
-        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* 輕微的內陰影 */
-      }
+    .search-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2em;
+      /* 增加下方間距 */
+    }
 
-      input:focus {
-        border-color: #aaa; /* focus 時更明顯的邊框 */
-        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1),
-          0 0 5px rgba(170, 170, 170, 0.3); /* 更明顯的 focus 陰影 */
-      }
+    input {
+      width: 300px;
+      padding: 0.8em;
+      /* 增加內邊距 */
+      font-size: 1em;
+      border: 1px solid #ddd;
+      /* 更細的邊框 */
+      border-radius: 5px;
+      outline: none;
+      /* 移除預設 focus 樣式，稍後自訂 */
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+      /* 輕微的內陰影 */
+    }
 
-      button {
-        padding: 0.8em; /* 與輸入框相同的內邊距 */
-        font-size: 1em;
-        margin-left: 0.8em; /* 增加左邊間距 */
-        border: none;
-        background-color: #eee; /* 淺灰色按鈕 */
-        color: #333;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease; /* 添加過渡效果 */
-      }
+    input:focus {
+      border-color: #aaa;
+      /* focus 時更明顯的邊框 */
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1),
+        0 0 5px rgba(170, 170, 170, 0.3);
+      /* 更明顯的 focus 陰影 */
+    }
 
-      button:hover {
-        background-color: #ddd;
-      }
+    button {
+      padding: 0.8em;
+      /* 與輸入框相同的內邊距 */
+      font-size: 1em;
+      margin-left: 0.8em;
+      /* 增加左邊間距 */
+      border: none;
+      background-color: #eee;
+      /* 淺灰色按鈕 */
+      color: #333;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      /* 添加過渡效果 */
+    }
 
-      button i {
-        font-size: 1.2em; /* 放大圖示 */
-      }
+    button:hover {
+      background-color: #ddd;
+    }
 
-      .suggestions {
-        margin-top: 1em;
-        color: #777; /* 更柔和的文字顏色 */
-        text-align: left;
-      }
+    button i {
+      font-size: 1.2em;
+      /* 放大圖示 */
+    }
 
-      .suggestion-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        text-align: left;
-        border: 1px solid #eee; /* 建議列表邊框 */
-        border-radius: 5px;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* 輕微陰影 */
-      }
+    .suggestions {
+      margin-top: 1em;
+      color: #777;
+      /* 更柔和的文字顏色 */
+      text-align: left;
+    }
 
-      .suggestion-item {
-        display: block;
-        padding: 0.6em 1em;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-      }
+    .suggestion-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+      border: 1px solid #eee;
+      /* 建議列表邊框 */
+      border-radius: 5px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      /* 輕微陰影 */
+    }
 
-      .suggestion-item:hover {
-        background-color: #f0f0f0;
-        color: #333;
-      }
+    .suggestion-item {
+      display: block;
+      padding: 0.6em 1em;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
 
-      .suggestion-item.active {
-        background-color: #e0e0e0;
-        color: #333;
-      }
+    .suggestion-item:hover {
+      background-color: #f0f0f0;
+      color: #333;
+    }
 
-      #result {
-        margin-top: 2em;
-      }
+    .suggestion-item.active {
+      background-color: #e0e0e0;
+      color: #333;
+    }
 
-      .article {
-        margin-bottom: 2em; /* 增加文章間距 */
-        padding: 1.5em; /* 增加內邊距 */
-        background-color: #fff;
-        border-radius: 10px;
-        border-top: 0px solid #eee; /* 上邊框保持 1px 細線 */
-        border-right: 0px solid #eee; /* 右邊框保持 1px 細線 */
-        border-bottom: 0px solid #eee; /* 下邊框保持 1px 細線 */
-        border-left: 10px solid #eee; /* 左邊框設定為 10px 粗細 */
-        position: relative;
-        text-align: left;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* 輕微陰影 */
-      }
+    #result {
+      margin-top: 2em;
+    }
 
-      .article-action {
-        position: absolute;
-        top: 0.8em;
-        left: 0.8em;
-        font-size: 0.9em;
-        color: #555;
-        background-color: #f0f0f0;
-        padding: 0.3em 0.6em;
-        border-radius: 4px;
-      }
+    .article {
+      margin-bottom: 2em;
+      /* 增加文章間距 */
+      padding: 1.5em;
+      /* 增加內邊距 */
+      background-color: #fff;
+      border-radius: 10px;
+      border-top: 0px solid #eee;
+      /* 上邊框保持 1px 細線 */
+      border-right: 0px solid #eee;
+      /* 右邊框保持 1px 細線 */
+      border-bottom: 0px solid #eee;
+      /* 下邊框保持 1px 細線 */
+      border-left: 10px solid #eee;
+      /* 左邊框設定為 10px 粗細 */
+      position: relative;
+      text-align: left;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      /* 輕微陰影 */
+    }
 
-      .article-info {
-        text-align: center;
-        margin-bottom: 1.2em;
-        font-size: 1.1em;
-        color: #444;
-      }
+    .article-action {
+      position: absolute;
+      top: 0.8em;
+      left: 0.8em;
+      font-size: 0.9em;
+      color: #555;
+      background-color: #f0f0f0;
+      padding: 0.3em 0.6em;
+      border-radius: 4px;
+    }
 
-      .article-rating {
-        position: absolute;
-        top: 0.8em;
-        right: 0.8em;
-        font-size: 0.9em;
-        color: #444;
-        background-color: #f0f0f0;
-        padding: 0.3em 0.6em;
-        border-radius: 4px;
-      }
+    .article-info {
+      text-align: center;
+      margin-bottom: 1.2em;
+      font-size: 1.1em;
+      color: #444;
+    }
 
-      .article-feedback {
-        margin-top: 1.5em;
-        padding: 1em;
-        border: 1px solid #ccc; /* 稍淺的黑色邊框 */
-        border-radius: 4px;
-        background-color: #f9f9f9; /* 更柔和的背景 */
-        color: #555;
-        font-size: 0.95em;
-        line-height: 1.6; /* 增加行高 */
-      }
+    .article-rating {
+      position: absolute;
+      top: 0.8em;
+      right: 0.8em;
+      font-size: 0.9em;
+      color: #444;
+      background-color: #f0f0f0;
+      padding: 0.3em 0.6em;
+      border-radius: 4px;
+    }
 
-      .green-border {
-        border-color: #a7d1a9 !important;
-      } /* 更柔和的綠色 */
-      .blue-border {
-        border-color: #a7b6d1 !important;
-      } /* 更柔和的藍色 */
+    .article-feedback {
+      margin-top: 1.5em;
+      padding: 1em;
+      border: 1px solid #ccc;
+      /* 稍淺的黑色邊框 */
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      /* 更柔和的背景 */
+      color: #555;
+      font-size: 0.95em;
+      line-height: 1.6;
+      /* 增加行高 */
+    }
 
-      #loading {
-        text-align: center;
-        padding: 1.5em;
-        color: #999;
-        display: none;
-        font-size: 0.9em;
-      }
+    .green-border {
+      border-color: #a7d1a9 !important;
+    }
 
-      .title-container {
-        text-align: center; /* 將圖片水平置中 */
-        margin-bottom: 1.5em; /* 與下方搜尋框保持間距 */
-      }
+    /* 更柔和的綠色 */
+    .blue-border {
+      border-color: #a7b6d1 !important;
+    }
 
-      .title-container img {
-        max-width: 300px; /* 設定圖片的最大寬度，防止過大 */
-        height: auto; /* 保持圖片的原始比例 */
-        display: block; /* 移除圖片底部的額外空間 */
-        margin: 0 auto; /* 另一種水平置中的方式 */
-      }
+    /* 更柔和的藍色 */
 
+    #loading {
+      text-align: center;
+      padding: 1.5em;
+      color: #999;
+      display: none;
+      font-size: 0.9em;
+    }
+
+    .title-container {
+      text-align: center;
+      /* 將圖片水平置中 */
+      margin-bottom: 1.5em;
+      /* 與下方搜尋框保持間距 */
+    }
+
+    .title-container img {
+      max-width: 300px;
+      /* 設定圖片的最大寬度，防止過大 */
+      height: auto;
+      /* 保持圖片的原始比例 */
+      display: block;
+      /* 移除圖片底部的額外空間 */
+      margin: 0 auto;
+      /* 另一種水平置中的方式 */
+    }
+
+    .telegram-link {
+      position: fixed;
+      /* 固定在螢幕上的位置 */
+      top: 50%;
+      right: 2em;
+      /* 距離右邊的距離 */
+      transform: translateY(-50%);
+      /* 垂直置中 */
+      background-color: #f0f0f0;
+      /* 淺灰色背景 */
+      color: #222;
+      padding: 0.8em 1em;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+      /* 確保在其他內容之上 */
+    }
+
+    .telegram-link a {
+      display: flex;
+      /* 讓圖示和文字水平對齊 */
+      align-items: center;
+      color: inherit;
+      /* 繼承父元素的顏色 */
+      text-decoration: none;
+      /* 移除底線 */
+    }
+
+    .telegram-link i {
+      font-size: 1.5em;
+      margin-right: 0.5em;
+    }
+
+    .telegram-link span {
+      font-size: 1em;
+    }
+
+    /* Telegram 按鈕 icon 顏色 */
+    .telegram-btn i {
+      color: #0088cc;
+    }
+
+    /* 意見回饋按鈕 icon 顏色 */
+    .feedback-btn i {
+      color: #28a745;
+      /* 綠色 */
+    }
+
+        /* 意見回饋按鈕 icon 顏色 */
+    .form-btn i {
+      color: #2857a7;
+      /* 綠色 */
+    }
+
+
+    /* 響應式設計調整 */
+    @media (max-width: 900px) {
       .telegram-link {
-        position: fixed; /* 固定在螢幕上的位置 */
-        top: 50%;
-        right: 2em; /* 距離右邊的距離 */
-        transform: translateY(-50%); /* 垂直置中 */
-        background-color: #f0f0f0; /* 淺灰色背景 */
-        color: #222;
-        padding: 0.8em 1em;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        z-index: 100; /* 確保在其他內容之上 */
+        right: 1em;
       }
+    }
 
-      .telegram-link a {
-        display: flex; /* 讓圖示和文字水平對齊 */
-        align-items: center;
-        color: inherit; /* 繼承父元素的顏色 */
-        text-decoration: none; /* 移除底線 */
+    @media (max-width: 700px) {
+      .telegram-link {
+        display: none;
+        /* 在更小的螢幕上隱藏 */
       }
+    }
 
-      .telegram-link i {
-        font-size: 1.5em;
-        margin-right: 0.5em;
-      }
+    .article-card {
+      border: 1px solid #ccc;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+      background-color: #fff;
+      max-width: 700px;
+    }
 
-      .telegram-link span {
-        font-size: 1em;
-      }
+    .article-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
 
-/* Telegram 按鈕 icon 顏色 */
-.telegram-btn i {
-  color: #0088cc;
-}
+    .rating-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
-/* 意見回饋按鈕 icon 顏色 */
-.feedback-btn i {
-  color: #28a745; /* 綠色 */
-}
+    .rating-table th,
+    .rating-table td {
+      border: 1px solid #333;
+      padding: 10px;
+      text-align: left;
+    }
 
+    .rating-table th {
+      background-color: #f2f2f2;
+    }
 
-      /* 響應式設計調整 */
-      @media (max-width: 900px) {
-        .telegram-link {
-          right: 1em;
-        }
-      }
+    .article-card {
+      position: relative;
+      border: 1px solid #ccc;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+      background-color: #fff;
+      max-width: 700px;
+    }
 
-      @media (max-width: 700px) {
-        .telegram-link {
-          display: none; /* 在更小的螢幕上隱藏 */
-        }
-      }
+    .article-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
 
-      .article-card {
-        border: 1px solid #ccc;
-        border-radius: 16px;
-        padding: 16px;
-        margin-bottom: 20px;
-        background-color: #fff;
-        max-width: 700px;
-      }
+    .score-badge {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background-color: #007bff;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 18px;
+      font-size: 21px;
+      font-weight: bold;
+    }
 
-      .article-header {
-        display: flex;
-        justify-content: space-between;
-        font-weight: bold;
-        margin-bottom: 12px;
-        font-size: 16px;
-      }
+    .simple-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      margin-top: 1em;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+      overflow: hidden;
+    }
 
-      .rating-table {
-        width: 100%;
-        border-collapse: collapse;
-      }
+    .simple-table thead {
+      background-color: #f7f7f7;
+      color: #333;
+    }
 
-      .rating-table th,
-      .rating-table td {
-        border: 1px solid #333;
-        padding: 10px;
-        text-align: left;
-      }
+    .simple-table th,
+    .simple-table td {
+      padding: 12px 16px;
+      text-align: left;
+    }
 
-      .rating-table th {
-        background-color: #f2f2f2;
-      }
+    .simple-table tbody tr {
+      border-bottom: 1px solid #eee;
+    }
 
-      .article-card {
-        position: relative;
-        border: 1px solid #ccc;
-        border-radius: 16px;
-        padding: 16px;
-        margin-bottom: 20px;
-        background-color: #fff;
-        max-width: 700px;
-      }
+    .simple-table tbody tr:last-child {
+      border-bottom: none;
+    }
 
-      .article-header {
-        display: flex;
-        justify-content: space-between;
-        font-weight: bold;
-        margin-bottom: 12px;
-        font-size: 16px;
-      }
+    .simple-table tbody tr:hover {
+      background-color: #f9f9f9;
+    }
 
-      .score-badge {
-        position: absolute;
-        top: 12px;
-        right: 16px;
-        background-color: #007bff;
-        color: white;
-        padding: 6px 10px;
-        border-radius: 18px;
-        font-size: 21px;
-        font-weight: bold;
-      }
+    .simple-table th {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
 
-      .simple-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin-top: 1em;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    .simple-table td {
+      font-size: 0.92rem;
+      color: #444;
+    }
+
+    .article-action {
+      font-size: 21px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+
+    .action-work {
+      color: #a7d1a9;
+      /* 綠色 */
+    }
+
+    .action-interview {
+      color: #a7b6d1;
+      /* 藍色 */
+    }
+
+    .action-default {
+      color: #6c757d;
+      /* 灰色 */
+    }
+    
+    .ads-sidebar {
+  position: fixed;
+  top: 20%;
+  left: 1.5em;
+  width: 300px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  overflow: hidden;
+  padding: 1em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
 }
 
-.simple-table thead {
-  background-color: #f7f7f7;
-  color: #333;
-}
-
-.simple-table th,
-.simple-table td {
-  padding: 12px 16px;
-  text-align: left;
-}
-
-.simple-table tbody tr {
-  border-bottom: 1px solid #eee;
-}
-
-.simple-table tbody tr:last-child {
-  border-bottom: none;
-}
-
-.simple-table tbody tr:hover {
-  background-color: #f9f9f9;
-}
-
-.simple-table th {
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.simple-table td {
-  font-size: 0.92rem;
-  color: #444;
+@media (max-width: 768px) {
+  .ads-sidebar {
+    display: none; /* 小螢幕不顯示廣告 */
+  }
 }
 
 
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
 
-      .article-action {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 8px;
-        display: inline-block;
-      }
+<body>
+  <div class="title-container">
+    <img src="/image/title.png" alt="blahJob" />
+  </div>
+  <div class="search-container">
+    <input type="text" id="inputBox" placeholder="輸入公司名稱" oninput="onInputChange()" />
+    <button onclick="onConfirm()"><i class="fas fa-search"></i></button>
+  </div>
+  <div class="suggestions" id="suggestions"></div>
+  <div id="result"></div>
+  <div id="loading">載入中...</div>
 
-      .action-work {
-        color: #a7d1a9; /* 綠色 */
-      }
-
-      .action-interview {
-        color: #a7b6d1; /* 藍色 */
-      }
-
-      .action-default {
-        color: #6c757d; /* 灰色 */
-      }
-
-
-      
-
-    </style>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-  </head>
-  <body>
-    <div class="title-container">
-      <img src="/image/title.png" alt="blahJob" />
-    </div>
-    <div class="search-container">
-      <input
-        type="text"
-        id="inputBox"
-        placeholder="輸入公司名稱"
-        oninput="onInputChange()"
-      />
-      <button onclick="onConfirm()"><i class="fas fa-search"></i></button>
-    </div>
-    <div class="suggestions" id="suggestions"></div>
-    <div id="result"></div>
-    <div id="loading">載入中...</div>
-    <div class="telegram-link">
-      <a class="telegram-btn" href="https://t.me/blahjob" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-telegram"></i>
-        <span>Telegram</span>
-      </a>
+  <div class="telegram-link">
+    <a class="form-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfQqj6OaNI4ef4_6C9Ep6bQcIvcrbJ9-g38pK4v1N2RSbOwWA/viewform"
+    target="_blank" rel="noopener noreferrer">
+    <i class="fas fa-pen-to-square"></i>
+    <span>新增評論</span>
+  </a>
+</br></br>
+    <a class="telegram-btn" href="https://t.me/blahjob" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-telegram"></i>
+      <span>Telegram</span>
+    </a>
     </br></br>
-        <!-- 意見回饋按鈕 -->
-        <a class="feedback-btn" href="https://docs.google.com/forms/d/1s6ikTPGwukb42rCwGw9APsgzW6aRN5tlpQ-SX_U_Tm0/preview" target="_blank" rel="noopener noreferrer">
-          <i class="fas fa-comment-dots"></i>
-          <span>意見回饋</span>
-        </a>
-    </div>
-    <script>
-      // JavaScript 程式碼保持不變 (與之前的版本相同)
-      let companyMap = {};
-      let currentActiveSuggestion = null;
-      let currentCompanyId = null;
-      let allArticleData = [];
-      let loadedArticleCount = 0;
-      const articlesPerPage = 5;
-      let isLoading = false;
+    <!-- 意見回饋按鈕 -->
+    <a class="feedback-btn" href="https://docs.google.com/forms/d/1s6ikTPGwukb42rCwGw9APsgzW6aRN5tlpQ-SX_U_Tm0/preview"
+      target="_blank" rel="noopener noreferrer">
+      <i class="fas fa-comment-dots"></i>
+      <span>意見回饋</span>
+    </a>
+  </div>
 
-      async function loadCompanyData() {
-        const res = await fetch("data/company.json");
-        companyMap = await res.json();
+  <!-- blahjob-L -->
+  <div class="ads-sidebar">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-2311297816658661"
+         data-ad-slot="7009004700"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2311297816658661"
+    crossorigin="anonymous">
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+  
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2311297816658661"
+     crossorigin="anonymous"></script>
+
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2311297816658661"
+     data-ad-slot="7009004700"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+  <script>
+    // JavaScript 程式碼保持不變 (與之前的版本相同)
+    let companyMap = {};
+    let currentActiveSuggestion = null;
+    let currentCompanyId = null;
+    let allArticleData = [];
+    let loadedArticleCount = 0;
+    const articlesPerPage = 5;
+    let isLoading = false;
+
+    async function loadCompanyData() {
+      const res = await fetch("data/company.json");
+      companyMap = await res.json();
+    }
+
+    function onInputChange() {
+      const keyword = document
+        .getElementById("inputBox")
+        .value.trim()
+        .toLowerCase();
+      const suggestionBox = document.getElementById("suggestions");
+      suggestionBox.innerHTML = "";
+      if (!keyword) {
+        return;
       }
+      const matched = Object.keys(companyMap).filter((key) =>
+        key.includes(keyword)
+      );
+      if (matched.length > 0) {
+        const suggestionList = document.createElement("ul");
+        suggestionList.className = "suggestion-list";
+        matched.forEach((item) => {
+          const li = document.createElement("li");
+          li.className = "suggestion-item";
+          li.textContent = item;
 
-      function onInputChange() {
-        const keyword = document
-          .getElementById("inputBox")
-          .value.trim()
-          .toLowerCase();
-        const suggestionBox = document.getElementById("suggestions");
-        suggestionBox.innerHTML = "";
-        if (!keyword) {
+          li.addEventListener("mouseenter", () => {
+            if (currentActiveSuggestion) {
+              currentActiveSuggestion.classList.remove("active");
+            }
+            li.classList.add("active");
+            currentActiveSuggestion = li;
+            document.getElementById("inputBox").value = item;
+          });
+
+          li.addEventListener("mouseleave", () => {
+            li.classList.remove("active");
+            currentActiveSuggestion = null;
+            if (
+              document.getElementById("inputBox").value !== item &&
+              !suggestionList.dataset.clicked
+            ) {
+              document.getElementById("inputBox").value =
+                document.getElementById("inputBox").dataset.previousValue ||
+                "";
+            }
+            delete suggestionList.dataset.clicked;
+          });
+
+          li.addEventListener("click", () => {
+            document.getElementById("inputBox").value = item;
+            suggestionBox.innerHTML = "";
+            document.getElementById("inputBox").focus();
+            suggestionList.dataset.clicked = true;
+          });
+
+          suggestionList.appendChild(li);
+        });
+        suggestionBox.appendChild(suggestionList);
+        document.getElementById("inputBox").dataset.previousValue = keyword;
+      } else {
+        suggestionBox.textContent = "無匹配結果";
+      }
+    }
+
+    async function loadAndDisplayArticles(companyId, startIndex, count) {
+      if (isLoading) return;
+      isLoading = true;
+      document.getElementById("loading").style.display = "block";
+      const resultBox = document.getElementById("result");
+
+      try {
+        const res = await fetch(`data/${companyId}.json`);
+        const data = await res.json();
+        if (!Array.isArray(data)) {
+          resultBox.innerHTML =
+            '<p style="color: red;">⚠️ 資料格式錯誤，應為陣列</p>';
           return;
         }
-        const matched = Object.keys(companyMap).filter((key) =>
-          key.includes(keyword)
-        );
-        if (matched.length > 0) {
-          const suggestionList = document.createElement("ul");
-          suggestionList.className = "suggestion-list";
-          matched.forEach((item) => {
-            const li = document.createElement("li");
-            li.className = "suggestion-item";
-            li.textContent = item;
+        allArticleData = data;
 
-            li.addEventListener("mouseenter", () => {
-              if (currentActiveSuggestion) {
-                currentActiveSuggestion.classList.remove("active");
-              }
-              li.classList.add("active");
-              currentActiveSuggestion = li;
-              document.getElementById("inputBox").value = item;
-            });
+        const endIndex = Math.min(startIndex + count, allArticleData.length);
+        for (let i = startIndex; i < endIndex; i++) {
+          const item = allArticleData[i];
+          const articleDiv = document.createElement("div");
+          articleDiv.className = "article";
 
-            li.addEventListener("mouseleave", () => {
-              li.classList.remove("active");
-              currentActiveSuggestion = null;
-              if (
-                document.getElementById("inputBox").value !== item &&
-                !suggestionList.dataset.clicked
-              ) {
-                document.getElementById("inputBox").value =
-                  document.getElementById("inputBox").dataset.previousValue ||
-                  "";
-              }
-              delete suggestionList.dataset.clicked;
-            });
-
-            li.addEventListener("click", () => {
-              document.getElementById("inputBox").value = item;
-              suggestionBox.innerHTML = "";
-              document.getElementById("inputBox").focus();
-              suggestionList.dataset.clicked = true;
-            });
-
-            suggestionList.appendChild(li);
-          });
-          suggestionBox.appendChild(suggestionList);
-          document.getElementById("inputBox").dataset.previousValue = keyword;
-        } else {
-          suggestionBox.textContent = "無匹配結果";
-        }
-      }
-
-      async function loadAndDisplayArticles(companyId, startIndex, count) {
-        if (isLoading) return;
-        isLoading = true;
-        document.getElementById("loading").style.display = "block";
-        const resultBox = document.getElementById("result");
-
-        try {
-          const res = await fetch(`data/${companyId}.json`);
-          const data = await res.json();
-          if (!Array.isArray(data)) {
-            resultBox.innerHTML =
-              '<p style="color: red;">⚠️ 資料格式錯誤，應為陣列</p>';
-            return;
+          // 框
+          if (item["action"] === "工作") {
+            articleDiv.classList.add("green-border");
+          } else {
+            articleDiv.classList.add("blue-border");
           }
-          allArticleData = data;
 
-          const endIndex = Math.min(startIndex + count, allArticleData.length);
-          for (let i = startIndex; i < endIndex; i++) {
-            const item = allArticleData[i];
-            const articleDiv = document.createElement("div");
-            articleDiv.className = "article";
+          // 左邊
+          const actionSpan = document.createElement("span");
+          actionSpan.className = "article-action";
+          actionSpan.textContent = item["action"];
 
-            // 框
-            if (item["action"] === "工作") {
-              articleDiv.classList.add("green-border");
-            } else {
-              articleDiv.classList.add("blue-border");
-            }
+          // 根據 action 設定顏色類別
+          if (item["action"] === "工作") {
+            actionSpan.classList.add("action-work");
+          } else if (item["action"] === "面試") {
+            actionSpan.classList.add("action-interview");
+          } else {
+            actionSpan.classList.add("action-default");
+          }
 
-            // 左邊
-            const actionSpan = document.createElement("span");
-            actionSpan.className = "article-action";
-            actionSpan.textContent = item["action"];
+          articleDiv.appendChild(actionSpan);
 
-            // 根據 action 設定顏色類別
-            if (item["action"] === "工作") {
-              actionSpan.classList.add("action-work");
-            } else if (item["action"] === "面試") {
-              actionSpan.classList.add("action-interview");
-            } else {
-              actionSpan.classList.add("action-default");
-            }
+          // 中間
+          const infoDiv = document.createElement("div");
+          infoDiv.className = "article-info";
+          infoDiv.textContent = item["job_title"] + `  (${item["date"]})`;
+          articleDiv.appendChild(infoDiv);
 
-            articleDiv.appendChild(actionSpan);
+          // 右邊
+          if (item["overall_score"]) {
+            const scoreBadge = document.createElement("div");
+            scoreBadge.className = "score-badge";
+            scoreBadge.textContent = `總分：${item["overall_score"]}`;
+            articleDiv.appendChild(scoreBadge);
+          }
 
-            // 中間
-            const infoDiv = document.createElement("div");
-            infoDiv.className = "article-info";
-            infoDiv.textContent = item["job_title"] + `  (${item["date"]})`;
-            articleDiv.appendChild(infoDiv);
+          // 表格產生
+          const table = document.createElement("table");
+          table.className = "simple-table";
 
-            // 右邊
-            if (item["overall_score"]) {
-              const scoreBadge = document.createElement("div");
-              scoreBadge.className = "score-badge";
-              scoreBadge.textContent = `總分：${item["overall_score"]}`;
-              articleDiv.appendChild(scoreBadge);
-            }
-
-            // 表格產生
-            const table = document.createElement("table");
-            table.className = "simple-table";
-
-            // 表頭
-            const thead = document.createElement("thead");
-            thead.innerHTML = `
+          // 表頭
+          const thead = document.createElement("thead");
+          thead.innerHTML = `
     <tr>
       <th></th>
       <th>分數</th>
       <th>內容</th>
     </tr>
   `;
-            table.appendChild(thead);
+          table.appendChild(thead);
 
-            // 表身
-            const tbody = document.createElement("tbody");
+          // 表身
+          const tbody = document.createElement("tbody");
 
-            // 顯示評分與內容
-            const ratingList = [
-              {
-                label: "工作",
-                score: item["work_score"],
-                content: item["work"],
-              },
-              {
-                label: "溝通",
-                score: item["communication_score"],
-                content: item["communication"],
-              },
-              {
-                label: "績效",
-                score: item["performance_score"],
-                content: item["performance"],
-              },
-              {
-                label: "面試流程",
-                score: item["interview_score"],
-                content: item["interview"],
-              },
-              {
-                label: "面試題目",
-                score: item["interview_question_score"],
-                content: item["interview_question"],
-              },
-              {
-                label: "心得",
-                score: item["overall_score"],
-                content: item["experience_sharing"],
-              },
-            ];
+          // 顯示評分與內容
+          const ratingList = [
+            {
+              label: "工作",
+              score: item["work_score"],
+              content: item["work"],
+            },
+            {
+              label: "溝通",
+              score: item["communication_score"],
+              content: item["communication"],
+            },
+            {
+              label: "績效",
+              score: item["performance_score"],
+              content: item["performance"],
+            },
+            {
+              label: "面試流程",
+              score: item["interview_score"],
+              content: item["interview"],
+            },
+            {
+              label: "面試題目",
+              score: item["interview_question_score"],
+              content: item["interview_question"],
+            },
+            {
+              label: "心得",
+              score: item["overall_score"],
+              content: item["experience_sharing"],
+            },
+          ];
 
-            ratingList.forEach(({ label, score, content }) => {
-              if (score && content) {
-                const tr = document.createElement("tr");
+          ratingList.forEach(({ label, score, content }) => {
+            if (score && content) {
+              const tr = document.createElement("tr");
 
-                const tdLabel = document.createElement("td");
-                tdLabel.textContent = label;
+              const tdLabel = document.createElement("td");
+              tdLabel.textContent = label;
 
-                const tdScore = document.createElement("td");
-                tdScore.textContent = score;
+              const tdScore = document.createElement("td");
+              tdScore.textContent = score;
 
-                const tdContent = document.createElement("td");
-                tdContent.textContent = content;
+              const tdContent = document.createElement("td");
+              tdContent.textContent = content;
 
-                tr.appendChild(tdLabel);
-                tr.appendChild(tdScore);
-                tr.appendChild(tdContent);
+              tr.appendChild(tdLabel);
+              tr.appendChild(tdScore);
+              tr.appendChild(tdContent);
 
-                tbody.appendChild(tr);
-              }
-            });
+              tbody.appendChild(tr);
+            }
+          });
 
-            table.appendChild(tbody);
-            articleDiv.appendChild(table);
+          table.appendChild(tbody);
+          articleDiv.appendChild(table);
 
-            resultBox.appendChild(articleDiv);
-            loadedArticleCount++;
-          }
-
-          if (loadedArticleCount < allArticleData.length) {
-            document.getElementById("loading").style.display = "none";
-          } else {
-            document.getElementById("loading").textContent = "已載入所有資料";
-          }
-        } catch (err) {
-          resultBox.innerHTML +=
-            '<p style="color: red;">⚠️ 載入資料失敗，檔案可能不存在</p>';
-          console.error(err);
-          document.getElementById("loading").style.display = "none";
-        } finally {
-          isLoading = false;
+          resultBox.appendChild(articleDiv);
+          loadedArticleCount++;
         }
+
+        if (loadedArticleCount < allArticleData.length) {
+          document.getElementById("loading").style.display = "none";
+        } else {
+          document.getElementById("loading").textContent = "已載入所有資料";
+        }
+      } catch (err) {
+        resultBox.innerHTML +=
+          '<p style="color: red;">⚠️ 載入資料失敗，檔案可能不存在</p>';
+        console.error(err);
+        document.getElementById("loading").style.display = "none";
+      } finally {
+        isLoading = false;
+      }
+    }
+
+    function onConfirm() {
+      const input = document.getElementById("inputBox").value.trim();
+      const id = companyMap[input];
+      const resultBox = document.getElementById("result");
+      const suggestionBox = document.getElementById("suggestions");
+      resultBox.innerHTML = "";
+      allArticleData = [];
+      loadedArticleCount = 0;
+      document.getElementById("loading").textContent = "載入中...";
+      suggestionBox.innerHTML = "";
+
+      if (!id) {
+        resultBox.innerHTML = '<p style="color: red;">❌ 找不到對應資料</p>';
+        document.getElementById("loading").style.display = "none";
+        currentCompanyId = null;
+        return;
       }
 
-      function onConfirm() {
-        const input = document.getElementById("inputBox").value.trim();
-        const id = companyMap[input];
-        const resultBox = document.getElementById("result");
-        const suggestionBox = document.getElementById("suggestions");
-        resultBox.innerHTML = "";
-        allArticleData = [];
-        loadedArticleCount = 0;
-        document.getElementById("loading").textContent = "載入中...";
-        suggestionBox.innerHTML = "";
+      currentCompanyId = id;
+      loadAndDisplayArticles(currentCompanyId, 0, articlesPerPage);
+    }
 
-        if (!id) {
-          resultBox.innerHTML = '<p style="color: red;">❌ 找不到對應資料</p>';
-          document.getElementById("loading").style.display = "none";
-          currentCompanyId = null;
-          return;
+    window.addEventListener("scroll", () => {
+      if (!currentCompanyId || isLoading) return;
+
+      const { scrollTop, scrollHeight, clientHeight } =
+        document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 5) {
+        if (loadedArticleCount < allArticleData.length) {
+          loadAndDisplayArticles(
+            currentCompanyId,
+            loadedArticleCount,
+            articlesPerPage
+          );
         }
-
-        currentCompanyId = id;
-        loadAndDisplayArticles(currentCompanyId, 0, articlesPerPage);
       }
+    });
 
-      window.addEventListener("scroll", () => {
-        if (!currentCompanyId || isLoading) return;
+    loadCompanyData();
 
-        const { scrollTop, scrollHeight, clientHeight } =
-          document.documentElement;
-        if (scrollTop + clientHeight >= scrollHeight - 5) {
-          if (loadedArticleCount < allArticleData.length) {
-            loadAndDisplayArticles(
-              currentCompanyId,
-              loadedArticleCount,
-              articlesPerPage
-            );
-          }
-        }
-      });
+    document.getElementById("feedback-button").addEventListener("click", function () {
+      window.open(
+        "https://docs.google.com/forms/d/1s6ikTPGwukb42rCwGw9APsgzW6aRN5tlpQ-SX_U_Tm0/preview",
+        "_blank"
+      );
+    });
 
-      loadCompanyData();
+  </script>
+</body>
 
-      document.getElementById("feedback-button").addEventListener("click", function () {
-  window.open(
-    "https://docs.google.com/forms/d/1s6ikTPGwukb42rCwGw9APsgzW6aRN5tlpQ-SX_U_Tm0/preview",
-    "_blank"
-  );
-});
-
-    </script>
-  </body>
 </html>
