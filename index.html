@@ -440,6 +440,45 @@
   }
 }
 
+.popup-ad {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-ad.hidden {
+  display: none;
+}
+
+.ad-container {
+  background: #fff;
+  padding: 1.2em;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.4em;
+  color: #777;
+  cursor: pointer;
+}
+
+
 
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -493,7 +532,25 @@
     </script>
   </div>
 
-  
+  <!-- 彈出式廣告 -->
+<div id="popup-ad" class="popup-ad hidden">
+  <div class="ad-container">
+    <button id="close-ad" class="close-btn">&times;</button>
+    
+    <!-- Google AdSense 廣告 -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-2311297816658661"
+         data-ad-slot="3664656065"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2311297816658661"
+         crossorigin="anonymous">
+              (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+</div>
+
   <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2311297816658661"
      crossorigin="anonymous"></script>
 
@@ -737,6 +794,11 @@
     }
 
     function onConfirm() {
+          // 顯示廣告彈窗
+    const popupAd = document.getElementById("popup-ad");
+    popupAd.classList.remove("hidden");
+
+
       const input = document.getElementById("inputBox").value.trim();
       const id = companyMap[input];
       const resultBox = document.getElementById("result");
