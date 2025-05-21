@@ -574,9 +574,15 @@
     const articlesPerPage = 5;
     let isLoading = false;
 
-    async function loadCompanyData() {
-      const res = await fetch("data/company.json");
+    async function loadCompanyData(hashIndex ) {
+      const res = await fetch(`/data/company${hashIndex}.json`);
       companyMap = await res.json();
+    }
+
+    function hashGroup(char) {
+      if (!char || char.length === 0) return 0;
+      const code = char.codePointAt(0); // 使用 Unicode 編碼
+      return code % 20;
     }
 
     function onInputChange() {
@@ -589,6 +595,9 @@
       if (!keyword) {
         return;
       }
+
+      loadCompanyData(hashGroup(keyword[0]));
+
       const matched = Object.keys(companyMap).filter((key) =>
         key.includes(keyword)
       );
@@ -785,7 +794,7 @@
         }
       } catch (err) {
         resultBox.innerHTML +=
-          '<p style="color: red;">⚠️ 載入資料失敗，檔案可能不存在</p>';
+          '<p style="color: red;">⚠️ 公司還沒有評價</p>';
         console.error(err);
         document.getElementById("loading").style.display = "none";
       } finally {
@@ -836,7 +845,8 @@
       }
     });
 
-    loadCompanyData();
+    
+    
 
     document.getElementById("feedback-button").addEventListener("click", function () {
       window.open(
@@ -844,6 +854,7 @@
         "_blank"
       );
     });
+
 
   </script>
 </body>
