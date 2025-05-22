@@ -535,7 +535,7 @@
   <!-- 彈出式廣告 -->
 <div id="popup-ad" class="popup-ad hidden">
   <div class="ad-container">
-    <button id="close-ad" class="close-btn">&times;</button>
+    <button id="close-popup" class="close-btn">&times;</button>
     
     <!-- Google AdSense 廣告 -->
     <ins class="adsbygoogle"
@@ -575,8 +575,10 @@
     let isLoading = false;
 
     async function loadCompanyData(hashIndex ) {
-      const res = await fetch(`/data/company${hashIndex}.json`);
-      companyMap = await res.json();
+      if (!companyMap[hashIndex]) {
+        const res = await fetch(`/data/company${hashIndex}.json`);
+        companyMap[hashIndex] = await res.json();
+      }
     }
 
     function hashGroup(char) {
@@ -598,7 +600,7 @@
 
       loadCompanyData(hashGroup(keyword[0]));
 
-      const matched = Object.keys(companyMap).filter((key) =>
+      const matched = Object.keys(companyMap[hashGroup(keyword[0])]).filter((key) =>
         key.includes(keyword)
       );
       if (matched.length > 0) {
@@ -805,8 +807,11 @@
     function onConfirm() {
           // 顯示廣告彈窗
     const popupAd = document.getElementById("popup-ad");
+    const closeBtn = document.getElementById("close-popup");
     popupAd.classList.remove("hidden");
-
+    closeBtn.addEventListener("click", () => {
+  popupAd.classList.add("hidden");
+});
 
       const input = document.getElementById("inputBox").value.trim();
       const id = companyMap[input];
