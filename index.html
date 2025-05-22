@@ -600,9 +600,16 @@
 
       loadCompanyData(hashGroup(keyword[0]));
 
+      // 模糊查詢
+      // const matched = Object.keys(companyMap[hashGroup(keyword[0])]).filter((key) =>
+      //   key.includes(keyword)
+      // );
+
+      // 指定查詢
       const matched = Object.keys(companyMap[hashGroup(keyword[0])]).filter((key) =>
-        key.includes(keyword)
+          key.startsWith(keyword)
       );
+
       if (matched.length > 0) {
         const suggestionList = document.createElement("ul");
         suggestionList.className = "suggestion-list";
